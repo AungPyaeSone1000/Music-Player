@@ -26,14 +26,14 @@ function loadMusic (IndexNum){
 
 //Play Music FUnction
 function PlayMusic(){
-    wrapper.classList.add("paused");
+    wrapper.classList.add("play");
     PlayPauseBtn.innerText = "pause";
     MainAudio.play();
 }
 
 //Pause Music Function
 function PauseMusic(){
-    wrapper.classList.remove("paused");
+    wrapper.classList.remove("play");
     PlayPauseBtn.innerText = "play_arrow";
     MainAudio.pause();
 }
@@ -41,6 +41,8 @@ function PauseMusic(){
 //Next Song
 function NextSong(){
     musicIndex++;
+    //Music will go to the first song when the index is greater than the array
+    musicIndex >= allMusic.length ? musicIndex = 0 : musicIndex = musicIndex;
     loadMusic(musicIndex)
     PlayMusic();
 }
@@ -48,13 +50,15 @@ function NextSong(){
 //Previous Song
 function PrevSong(){
     musicIndex--;
+    //Music will gp to the last song when the index is less than 0
+    musicIndex < 0 ? musicIndex = allMusic.length-1 : musicIndex = musicIndex;
     loadMusic(musicIndex)
     PlayMusic();
 }
 
 //Play or Pause Music 
 PlayPauseBtn.addEventListener("click",()=>{
-    const MusicPause = wrapper.classList.contains("paused");
+    const MusicPause = wrapper.classList.contains("play");
     MusicPause ? PauseMusic() : PlayMusic();
     
 })
