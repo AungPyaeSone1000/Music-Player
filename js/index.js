@@ -6,6 +6,7 @@ const MainAudio = document.getElementById("main-audio");
 const PlayPauseBtn = document.getElementById("play-pause");
 const PrevBtn = document.getElementById("prev");
 const NextBtn = document.getElementById("next");
+const ProgressArea = document.getElementById("progress-area")
 const ProgressBar = document.getElementById("progress-bar");
 
 console.log();
@@ -73,6 +74,7 @@ PrevBtn.addEventListener("click",()=>{
     PrevSong();
 })
 
+//Time Indicators 
 MainAudio.addEventListener("timeupdate",(e)=>{
     const currentTime = e.target.currentTime; //Current Time of the song
     const DurationTime = e.target.duration;//Duration of the song
@@ -97,4 +99,13 @@ MainAudio.addEventListener("timeupdate",(e)=>{
             CurrentSec = "0"+CurrentSec;
         }
         musicCurrentTime.innerText = CurrentMin +":"+CurrentSec;
-})
+});
+
+ProgressArea.addEventListener("click",(e)=>{
+    let progressAreaWidthValue = ProgressArea.clientWidth;
+    let clickedOffSetX = e.offsetX;
+    let duration = MainAudio.duration;
+    MainAudio.currentTime = (clickedOffSetX/progressAreaWidthValue) * duration;
+    PlayMusic();
+});
+
