@@ -31,7 +31,7 @@ body{
     cursor: pointer;
 }
 
-.top-bar, .progress-area .timer,.controls, .music-list .header, .music-list li{
+.top-bar, #progress-area .timer,.controls, .music-list .header, .music-list li{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -75,7 +75,7 @@ body{
     opacity: 0.5;
 }
 
-.progress-area {
+#progress-area {
     height: 6px;
     width: 100%;
     background-color: whitesmoke;
@@ -83,7 +83,7 @@ body{
     cursor: pointer;
 }
 
-.progress-area #progress-bar {
+#progress-area #progress-bar {
     height: inherit;
     width: 0%;
     border-radius: inherit;
@@ -105,11 +105,11 @@ body{
     transition: opacity 0.2s ease ;
 }
 
-.progress-area:hover #progress-bar::before{
+#progress-area:hover #progress-bar::before{
     opacity: 1;
 }
 
-.progress-area .timer{
+#progress-area .timer{
     margin-top: 2px;
 }
 
