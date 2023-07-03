@@ -6,7 +6,9 @@ const MainAudio = document.getElementById("main-audio");
 const PlayPauseBtn = document.getElementById("play-pause");
 const PrevBtn = document.getElementById("prev");
 const NextBtn = document.getElementById("next");
+const ProgressBar = document.getElementById("progress-bar");
 
+console.log();
 
 let musicIndex = 0;
 
@@ -69,4 +71,30 @@ NextBtn.addEventListener("click",()=>{
 
 PrevBtn.addEventListener("click",()=>{
     PrevSong();
+})
+
+MainAudio.addEventListener("timeupdate",(e)=>{
+    const currentTime = e.target.currentTime; //Current Time of the song
+    const DurationTime = e.target.duration;//Duration of the song
+    let progressWidth = (currentTime/DurationTime) * 100;
+    ProgressBar.style.width = progressWidth+"%";
+    let musicCurrentTime = document.getElementById("currentTime");
+    let musicDuration = document.getElementById("duration");
+    MainAudio.addEventListener("loadeddata",()=>{
+        //Update Song Duration
+        let audioDuration =  MainAudio.duration;
+        let totalMin = Math.floor(audioDuration/60);
+        let totalSec = Math.floor(audioDuration%60);
+        if (totalSec < 10){
+            totalSec = "0"+totalSec;
+        }
+        musicDuration.innerText = totalMin  +":"+totalSec;   
+    });
+    //Update Song Current Time
+    let CurrentMin = Math.floor(currentTime/60);
+        let CurrentSec = Math.floor(currentTime%60);
+        if (CurrentSec < 10){
+            CurrentSec = "0"+CurrentSec;
+        }
+        musicCurrentTime.innerText = CurrentMin +":"+CurrentSec;
 })
