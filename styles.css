@@ -83,15 +83,15 @@ body{
     cursor: pointer;
 }
 
-.progress-area .progress-bar {
+.progress-area #progress-bar {
     height: inherit;
-    width: 50%;
+    width: 0%;
     border-radius: inherit;
     background-color: rgb(164, 164, 0);
     position: relative;
 }
 
-.progress-bar::before {
+#progress-bar::before {
     content: "";
     position: absolute;
     height: 10px;
@@ -105,7 +105,7 @@ body{
     transition: opacity 0.2s ease ;
 }
 
-.progress-area:hover .progress-bar::before{
+.progress-area:hover #progress-bar::before{
     opacity: 1;
 }
 
