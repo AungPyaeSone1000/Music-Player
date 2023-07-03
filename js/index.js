@@ -6,10 +6,14 @@ const MainAudio = document.getElementById("main-audio");
 const PlayPauseBtn = document.getElementById("play-pause");
 const PrevBtn = document.getElementById("prev");
 const NextBtn = document.getElementById("next");
-const ProgressArea = document.getElementById("progress-area")
+const ProgressArea = document.getElementById("progress-area");
 const ProgressBar = document.getElementById("progress-bar");
+const RepeatBtn = document.getElementById("repeat");
+const MusicList = document.getElementsByClassName("music-list")[0];
+const QueueBtn = document.getElementById("queue");
+const HideQueueBtn = document.getElementById("close");
 
-console.log();
+console.log(MusicList);
 
 let musicIndex = 0;
 
@@ -101,6 +105,7 @@ MainAudio.addEventListener("timeupdate",(e)=>{
         musicCurrentTime.innerText = CurrentMin +":"+CurrentSec;
 });
 
+//Progress Bar Functionality
 ProgressArea.addEventListener("click",(e)=>{
     let progressAreaWidthValue = ProgressArea.clientWidth;
     let clickedOffSetX = e.offsetX;
@@ -109,3 +114,59 @@ ProgressArea.addEventListener("click",(e)=>{
     PlayMusic();
 });
 
+//Repeat Button Icon 
+RepeatBtn.addEventListener("click",()=>{
+    let icon = RepeatBtn.innerText;
+    switch(icon){
+        case "repeat":
+            RepeatBtn.innerText = "repeat_one";
+            RepeatBtn.setAttribute("title","Repeat One");
+            break;
+        case "repeat_one":
+            RepeatBtn.innerText = "shuffle"; 
+            RepeatBtn.setAttribute("title","Shuffle");
+            break;
+        case "shuffle":
+            RepeatBtn.innerText = "repeat";
+            RepeatBtn.setAttribute("title","Repeat");
+            break;
+        
+    }
+});
+
+//Repeat Button Functionality 
+//Reminder to add repeat function to next btn
+MainAudio.addEventListener("ended",()=>{
+    let icon = RepeatBtn.innerText;
+    switch(icon){
+        case "repeat":
+            NextSong();
+            break;
+        case "repeat_one":
+            MainAudio.currentTime = 0;
+            loadMusic(musicIndex)
+            PlayMusic();
+            break;
+        case "shuffle":
+            let randIndex = RandomNum(0,allMusic.length);
+            if (randIndex == musicIndex){
+                randIndex++;
+            }
+            loadMusic(randIndex);
+            PlayMusic();
+            break;
+    }
+})
+
+//Random Number Generator
+function RandomNum(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+};
+
+//Toggle Queue List
+QueueBtn.addEventListener("click",()=>{
+    MusicList.classList.toggle("show");
+});
+HideQueueBtn.addEventListener("click",()=>{
+    QueueBtn.click();
+})
