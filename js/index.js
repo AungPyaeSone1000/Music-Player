@@ -12,8 +12,7 @@ const RepeatBtn = document.getElementById("repeat");
 const MusicList = document.getElementsByClassName("music-list")[0];
 const QueueBtn = document.getElementById("queue");
 const HideQueueBtn = document.getElementById("close");
-
-console.log(MusicList);
+const ulTag = document.getElementsByTagName("ul")[0];
 
 let musicIndex = 0;
 
@@ -169,4 +168,29 @@ QueueBtn.addEventListener("click",()=>{
 });
 HideQueueBtn.addEventListener("click",()=>{
     QueueBtn.click();
-})
+});
+
+
+for (let i = 0; i < allMusic.length; i++) {
+    let liTag = `<li>
+                    <div class="row">
+                        <span>`+allMusic[i].name+`</span>
+                        <p>`+allMusic[i].artist+`</p>
+                    </div>
+                    <audio id="${allMusic[i].src}" src="songs/${allMusic[i].src}"></audio>                   
+                    <span class="${allMusic[i].src}">3:40</span>
+                </li>`;
+    ulTag.insertAdjacentHTML("beforeend",liTag);
+    let liAudioTag = document.getElementById(allMusic[i].src);
+    let liAudioDuration = document.getElementsByClassName(allMusic[i].src)[0];
+
+    liAudioTag.addEventListener("loadeddata",(e)=>{
+        let audioDuration =  liAudioTag.duration;
+        let totalMin = Math.floor(audioDuration/60);
+        let totalSec = Math.floor(audioDuration%60);
+        if (totalSec < 10){
+            totalSec = "0"+totalSec;
+        }
+        liAudioDuration.innerText = totalMin  +":"+totalSec;
+    })
+}
