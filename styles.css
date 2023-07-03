@@ -146,7 +146,7 @@ body{
     border-radius: 15px;
     transition: all 0.45s ease-out;
 }
-.music-list #show {
+.show {
     bottom: 0;
     opacity: 1;
     pointer-events: auto;
