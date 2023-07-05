@@ -182,3 +182,7 @@ body{
 .music-list ul li:last-child{
     border-bottom: 0px;
 }
+
+ul .playing{
+    color: rgb(177, 166, 12)
+}
