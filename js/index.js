@@ -43,6 +43,7 @@ function PauseMusic(){
     wrapper.classList.remove("play");
     PlayPauseBtn.innerText = "play_arrow";
     MainAudio.pause();
+
 }
 
 //Next Song
@@ -52,6 +53,7 @@ function NextSong(){
     musicIndex >= allMusic.length ? musicIndex = 0 : musicIndex = musicIndex;
     loadMusic(musicIndex)
     PlayMusic();
+    playingNow();
 }
 
 //Previous Song
@@ -61,13 +63,14 @@ function PrevSong(){
     musicIndex < 0 ? (musicIndex = allMusic.length-1) : musicIndex ;
     loadMusic(musicIndex)
     PlayMusic();
+    playingNow();
 }
 
 //Play or Pause Music 
 PlayPauseBtn.addEventListener("click",()=>{
     const MusicPause = wrapper.classList.contains("play");
     MusicPause ? PauseMusic() : PlayMusic();
-    
+    playingNow();
 })
 
 NextBtn.addEventListener("click",()=>{
@@ -112,6 +115,7 @@ ProgressArea.addEventListener("click",(e)=>{
     let duration = MainAudio.duration;
     MainAudio.currentTime = (clickedOffSetX/progressAreaWidthValue) * duration;
     PlayMusic();
+    playingNow();
 });
 
 //Repeat Button Icon 
