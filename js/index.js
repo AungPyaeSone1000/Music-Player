@@ -19,6 +19,7 @@ let musicIndex = 0;
 //Calls loadmusic when the window is loaded
 window.addEventListener("load", () =>{
     loadMusic(musicIndex);
+    playingNow();
 });
 
 //Load Music Function
@@ -57,7 +58,7 @@ function NextSong(){
 function PrevSong(){
     musicIndex--;
     //Music will gp to the last song when the index is less than 0
-    musicIndex < 0 ? musicIndex = allMusic.length-1 : musicIndex = musicIndex;
+    musicIndex < 0 ? (musicIndex = allMusic.length-1) : musicIndex ;
     loadMusic(musicIndex)
     PlayMusic();
 }
@@ -170,27 +171,58 @@ HideQueueBtn.addEventListener("click",()=>{
     QueueBtn.click();
 });
 
-
+//Display Song Queue List
 for (let i = 0; i < allMusic.length; i++) {
-    let liTag = `<li>
+    let liTag = `<li li-index="${i}">
                     <div class="row">
                         <span>`+allMusic[i].name+`</span>
                         <p>`+allMusic[i].artist+`</p>
                     </div>
-                    <audio id="${allMusic[i].src}" src="songs/${allMusic[i].src}"></audio>                   
-                    <span class="${allMusic[i].src}">3:40</span>
+                    <audio id="${allMusic[i].src}-audio" src="songs/${allMusic[i].src}"></audio>                   
+                    <span id="${allMusic[i].src}" class="audio-duration"></span>
                 </li>`;
     ulTag.insertAdjacentHTML("beforeend",liTag);
-    let liAudioTag = document.getElementById(allMusic[i].src);
-    let liAudioDuration = document.getElementsByClassName(allMusic[i].src)[0];
 
-    liAudioTag.addEventListener("loadeddata",(e)=>{
+    //Display Song Duration on the list
+    let liAudioTag = document.getElementById(allMusic[i].src+"-audio");
+    let liAudioDuration = document.getElementById(allMusic[i].src);
+    liAudioTag.addEventListener("loadeddata",()=>{
         let audioDuration =  liAudioTag.duration;
         let totalMin = Math.floor(audioDuration/60);
         let totalSec = Math.floor(audioDuration%60);
         if (totalSec < 10){
             totalSec = "0"+totalSec;
         }
-        liAudioDuration.innerText = totalMin  +":"+totalSec;
-    })
+        liAudioDuration.innerText = `${totalMin}:${totalSec}`;
+
+        //Setting duration Attribute to recall it later 
+        liAudioDuration.setAttribute("t-duration",`${totalMin}:${totalSec}`);
+    });
+};
+
+//Queue List Play song when clicked
+const liTags = document.getElementsByTagName("li");
+function playingNow(){
+    for (let i = 0; i < liTags.length; i++) {
+        let audioDuration = document.getElementsByClassName("audio-duration")[i];
+        if (liTags[i].classList.contains("playing")){
+            liTags[i].classList.remove("playing");
+            let duration = audioDuration.getAttribute("t-duration");
+            audioDuration.innerText = duration;
+        }
+
+        if (liTags[i].getAttribute("li-index") == musicIndex){
+            liTags[i].classList.add("playing");
+            audioDuration.innerText = "Playing";
+        }
+    
+        liTags[i].setAttribute("onclick","clicked(this)")
+    };
+}
+
+function clicked(e){
+     musicIndex = e.getAttribute("li-index");
+     loadMusic(musicIndex);
+     PlayMusic();
+     playingNow();
 }
